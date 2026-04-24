@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSU Pueblo — Pitcher #6 Scouting Report</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --bg: #f5f0e8;
+    --bg2: #ede7d9;
+    --bg3: #e4dccb;
+    --ink: #1a1a14;
+    --ink2: #3a3a2e;
+    --muted: #8a8a78;
+    --border: #d4ccb8;
+    --accent: #c0392b;
+    --accent2: #922b21;
+    --gold: #d4a017;
+    --blue: #1a5276;
+    --green: #1e8449;
+    --card: #ffffff;
+    --shadow: rgba(26,26,20,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Archivo', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(26,26,20,0.04) 28px);
+  }
+
+  /* HEADER */
+  header {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 28px 40px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 300px; height: 100%;
+    background: var(--accent);
+    clip-path: polygon(60px 0, 100% 0, 100% 100%, 0 100%);
+    opacity: 0.15;
+  }
+  .header-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .header-pitcher {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .num-badge {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 4.5rem;
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: -2px;
+  }
+  .header-titles h1 {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--bg);
+  }
+  .header-titles p {
+    font-size: 0.78rem;
+    color: rgba(245,240,232,0.55);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .header-stats {
+    display: flex;
+    gap: 28px;
+    align-items: flex-end;
+  }
+  .hstat { text-align: right; }
+  .hstat-val {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 2rem;
+    color: var(--bg);
+    line-height: 1;
+  }
+  .hstat-lbl {
+    font-size: 0.68rem;
+    color: rgba(245,240,232,0.45);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  /* TABS */
+  .tab-bar {
+    display: flex;
+    background: var(--ink2);
+    padding: 0 40px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    border-bottom: 3px solid var(--accent);
+  }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 13px 24px;
+    cursor: pointer;
+    color: rgba(245,240,232,0.45);
+    border-bottom: 3px solid transparent;
+    margin-bottom: -3px;
+    transition: all 0.15s;
+    white-space: nowrap;
+    user-select: none;
+  }
+  .tab:hover { color: var(--bg); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* CONTENT */
+  .content { padding: 32px 40px 60px; max-width: 1300px; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* SECTION TITLE */
+  .stitle {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 32px 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .stitle::before { content: ''; width: 20px; height: 3px; background: var(--accent); flex-shrink: 0; }
+  .stitle::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* GRIDS */
+  .g4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 20px; }
+  .g3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 20px; }
+  .g2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin-bottom: 20px; }
+
+  /* CARD */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 18px 22px;
+    box-shadow: 0 2px 8px var(--shadow);
+  }
+  .ctitle {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* BIG STAT */
+  .bstat { font-family: 'Archivo Black', sans-serif; font-size: 3.2rem; line-height: 1; }
+  .bstat-lbl { font-size: 0.7rem; color: var(--muted); margin-top: 5px; letter-spacing: 1.5px; text-transform: uppercase; }
+
+  /* BARS */
+  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+  .bar-lbl { font-size: 0.82rem; font-weight: 600; width: 160px; color: var(--ink2); }
+  .bar-bg { flex: 1; height: 14px; background: var(--bg2); border-radius: 1px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 1px; transition: width 0.8s ease; }
+  .bar-pct { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; width: 38px; text-align: right; color: var(--accent); font-weight: 600; }
+  .bar-n { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--muted); width: 24px; text-align: right; }
+
+  .f-DO { background: #2471a3; }
+  .f-I  { background: #c0392b; }
+  .f-CH { background: #1e8449; }
+  .f-O  { background: #2980b9; opacity: 0.7; }
+  .f-UI { background: #8e44ad; }
+  .f-D  { background: #d68910; }
+
+  /* BADGES */
+  .b { display: inline-block; padding: 2px 8px; border-radius: 2px; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 600; }
+  .b-DO { background: rgba(36,113,163,0.12); color: #2471a3; border: 1px solid rgba(36,113,163,0.2); }
+  .b-I  { background: rgba(192,57,43,0.1); color: var(--accent); border: 1px solid rgba(192,57,43,0.2); }
+  .b-CH { background: rgba(30,132,73,0.1); color: var(--green); border: 1px solid rgba(30,132,73,0.2); }
+  .b-O  { background: rgba(41,128,185,0.1); color: var(--blue); border: 1px solid rgba(41,128,185,0.2); }
+  .b-UI { background: rgba(142,68,173,0.1); color: #8e44ad; border: 1px solid rgba(142,68,173,0.2); }
+  .b-D  { background: rgba(214,137,16,0.1); color: var(--gold); border: 1px solid rgba(214,137,16,0.2); }
+  .b-mix { background: rgba(26,26,20,0.06); color: var(--ink2); border: 1px solid var(--border); }
+
+  /* INSIGHT */
+  .ins {
+    border-left: 3px solid var(--gold);
+    background: rgba(212,160,23,0.05);
+    padding: 11px 14px;
+    margin-bottom: 10px;
+    font-size: 0.86rem;
+    line-height: 1.6;
+  }
+  .ins strong {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 3px;
+  }
+  .ins.red { border-left-color: var(--accent); background: rgba(192,57,43,0.05); }
+  .ins.red strong { color: var(--accent); }
+  .ins.blue { border-left-color: var(--blue); background: rgba(26,82,118,0.05); }
+  .ins.blue strong { color: var(--blue); }
+  .ins.green { border-left-color: var(--green); background: rgba(30,132,73,0.05); }
+  .ins.green strong { color: var(--green); }
+
+  /* PREDICTION TABLE */
+  .pred-table { width: 100%; border-collapse: collapse; }
+  .pred-table th {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+    background: var(--bg2);
+  }
+  .pred-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+    font-size: 0.84rem;
+  }
+  .pred-table tr:last-child td { border-bottom: none; }
+  .pred-table tr:hover td { background: var(--bg); }
+  .count-lbl { font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; font-weight: 600; color: var(--ink); }
+  .conf-bar { display: flex; align-items: center; gap: 8px; }
+  .conf-bg { width: 80px; height: 8px; background: var(--bg2); border-radius: 1px; overflow: hidden; flex-shrink: 0; }
+  .conf-fill { height: 100%; border-radius: 1px; }
+  .conf-hi { background: var(--green); }
+  .conf-med { background: var(--gold); }
+  .conf-low { background: var(--muted); }
+  .conf-pct { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--muted); }
+
+  /* SEQUENCE TABLE */
+  .seq-table { width: 100%; border-collapse: collapse; }
+  .seq-table th { font-family: 'Archivo Black', sans-serif; font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); padding: 7px 10px; text-align: left; border-bottom: 1px solid var(--border); background: var(--bg2); }
+  .seq-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); font-size: 0.83rem; vertical-align: middle; }
+  .seq-table tr:last-child td { border-bottom: none; }
+  .arrow { color: var(--muted); margin: 0 3px; font-size: 0.75rem; }
+
+  /* OUTCOME GRID */
+  .outcome-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 16px; }
+  .out-box { background: var(--card); border: 1px solid var(--border); padding: 14px 16px; text-align: center; border-radius: 2px; }
+  .out-val { font-family: 'Archivo Black', sans-serif; font-size: 2.2rem; line-height: 1; }
+  .out-lbl { font-size: 0.66rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 4px; }
+  .out-box.hit .out-val { color: var(--green); }
+  .out-box.walk .out-val { color: var(--blue); }
+  .out-box.k .out-val { color: var(--accent); }
+  .out-box.out .out-val { color: var(--muted); }
+
+  /* FP BOXES */
+  .fp-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 14px; }
+  .fp-box { background: var(--bg2); border: 1px solid var(--border); border-radius: 2px; padding: 12px; text-align: center; }
+  .fp-val { font-family: 'Archivo Black', sans-serif; font-size: 1.8rem; line-height: 1; }
+  .fp-lbl { font-size: 0.64rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+  .c-red .fp-val { color: var(--accent); }
+  .c-blue .fp-val { color: var(--blue); }
+  .c-green .fp-val { color: var(--green); }
+  .c-gold .fp-val { color: var(--gold); }
+
+  /* ZONE DIAGRAM */
+  .zone-diagram {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: repeat(3,1fr);
+    gap: 4px;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 16px;
+    border: 2px solid var(--ink);
+  }
+  .zone-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    position: relative;
+  }
+  .zone-cell .zlbl { font-size: 0.58rem; color: var(--muted); }
+  .zone-cell .zpct { font-size: 0.82rem; font-weight: 600; }
+  .zone-hot { background: rgba(192,57,43,0.15); }
+  .zone-warm { background: rgba(212,160,23,0.12); }
+
+  footer { text-align: center; color: var(--muted); font-size: 0.68rem; padding: 20px; border-top: 1px solid var(--border); letter-spacing: 2px; text-transform: uppercase; margin-top: 40px; }
+
+  @media (max-width: 900px) {
+    header { padding: 18px 20px; }
+    .content { padding: 20px 20px 50px; }
+    .g4, .g3 { grid-template-columns: repeat(2,1fr); }
+    .g2 { grid-template-columns: 1fr; }
+    .fp-grid, .outcome-grid { grid-template-columns: repeat(2,1fr); }
+    .tab { padding: 11px 16px; }
+    .num-badge { font-size: 3rem; }
+    h1 { font-size: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="header-pitcher">
+      <div class="num-badge">#6</div>
+      <div class="header-titles">
+        <h1>CSU Pueblo — Pitcher #6</h1>
+        <p>Scouting Report &nbsp;·&nbsp; vs. Right-Handed Batters &nbsp;·&nbsp; Prediction + Pattern Analysis</p>
+      </div>
+    </div>
+    <div class="header-stats">
+      <div class="hstat">
+        <div class="hstat-val">50</div>
+        <div class="hstat-lbl">At-Bats</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">173</div>
+        <div class="hstat-lbl">Pitches</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">56%</div>
+        <div class="hstat-lbl">1st-Pitch K%</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">58%</div>
+        <div class="hstat-lbl">Behind-Count%</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <div class="tab active" onclick="show('overview',this)">Overview</div>
+  <div class="tab" onclick="show('predict',this)">Count Predictions</div>
+  <div class="tab" onclick="show('patterns',this)">Pitch Patterns</div>
+  <div class="tab" onclick="show('changeup',this)">Changeup</div>
+  <div class="tab" onclick="show('outcomes',this)">Outcomes</div>
+  <div class="tab" onclick="show('gameplan',this)">Game Plan</div>
+</div>
+
+<div class="content">
+
+<!-- ====== OVERVIEW ====== -->
+<div id="overview" class="panel active">
+
+  <div class="stitle">Pitch Mix</div>
+  <div class="g2">
+    <div class="card">
+      <div class="ctitle">All 173 Pitches — Breakdown</div>
+      <div class="bar-row"><div class="bar-lbl">Down-Outside (DO)</div><div class="bar-bg"><div class="bar-fill f-DO" style="width:32%"></div></div><div class="bar-pct">32%</div><div class="bar-n">55</div></div>
+      <div class="bar-row"><div class="bar-lbl">Inside (I)</div><div class="bar-bg"><div class="bar-fill f-I" style="width:25%"></div></div><div class="bar-pct">25%</div><div class="bar-n">44</div></div>
+      <div class="bar-row"><div class="bar-lbl">Changeup (CH)</div><div class="bar-bg"><div class="bar-fill f-CH" style="width:18%"></div></div><div class="bar-pct">18%</div><div class="bar-n">31</div></div>
+      <div class="bar-row"><div class="bar-lbl">Outside (O)</div><div class="bar-bg"><div class="bar-fill f-O" style="width:16%"></div></div><div class="bar-pct">16%</div><div class="bar-n">28</div></div>
+      <div class="bar-row"><div class="bar-lbl">Up-Inside (UI)</div><div class="bar-bg"><div class="bar-fill f-UI" style="width:6%"></div></div><div class="bar-pct">6%</div><div class="bar-n">11</div></div>
+      <div class="bar-row"><div class="bar-lbl">Down-Middle (D)</div><div class="bar-bg"><div class="bar-fill f-D" style="width:2%"></div></div><div class="bar-pct">2%</div><div class="bar-n">4</div></div>
+    </div>
+    <div class="card">
+      <div class="ctitle">Broad Zone Categories</div>
+      <div style="margin-bottom:16px">
+        <div class="bar-row"><div class="bar-lbl">Away Zone (O+DO)</div><div class="bar-bg"><div class="bar-fill f-DO" style="width:48%"></div></div><div class="bar-pct">48%</div><div class="bar-n">83</div></div>
+        <div class="bar-row"><div class="bar-lbl">In Zone (I+UI)</div><div class="bar-bg"><div class="bar-fill f-I" style="width:32%"></div></div><div class="bar-pct">32%</div><div class="bar-n">55</div></div>
+        <div class="bar-row"><div class="bar-lbl">Changeup (CH)</div><div class="bar-bg"><div class="bar-fill f-CH" style="width:18%"></div></div><div class="bar-pct">18%</div><div class="bar-n">31</div></div>
+        <div class="bar-row"><div class="bar-lbl">Down-Middle (D)</div><div class="bar-bg"><div class="bar-fill f-D" style="width:2%"></div></div><div class="bar-pct">2%</div><div class="bar-n">4</div></div>
+      </div>
+      <div class="ins blue">
+        <strong>Profile Summary</strong>
+        Down-outside heavy pitcher who mixes in changeup as a third option. The DO/CH combination is the core weapon. Inside pitch (I) is used to keep hitters honest — never the primary weapon but always a threat.
+      </div>
+    </div>
+  </div>
+
+  <div class="stitle">First Pitch</div>
+  <div class="card" style="margin-bottom:20px">
+    <div class="ctitle">0-0 Count — What's Coming First?</div>
+    <div class="fp-grid">
+      <div class="fp-box c-blue"><div class="fp-val">DO</div><div class="fp-lbl">Most Common (38%)</div></div>
+      <div class="fp-box c-red"><div class="fp-val">I</div><div class="fp-lbl">2nd Most (24%)</div></div>
+      <div class="fp-box c-gold"><div class="fp-val">O/CH</div><div class="fp-lbl">Tied 3rd (18% each)</div></div>
+      <div class="fp-box c-green"><div class="fp-val">56%</div><div class="fp-lbl">1st Pitch Strike Rate</div></div>
+    </div>
+    <div class="g2">
+      <div class="ins red">
+        <strong>Down-Outside Is the Default Opener</strong>
+        DO in 19 of 50 ABs (38%). When #6 takes the mound, the first pitch is likely going down and away. Be ready for it — but don't commit early, the ball is moving down.
+      </div>
+      <div class="ins">
+        <strong>Changeup on First Pitch — Real Threat</strong>
+        CH opens 18% of ABs (9 times). This is unusually high for a first-pitch changeup. If she throws CH on 0-0, the AB will likely stay CH-heavy throughout.
+      </div>
+    </div>
+  </div>
+
+  <div class="stitle">At-Bat Depth</div>
+  <div class="g4">
+    <div class="card"><div class="ctitle">Total ABs</div><div class="bstat" style="color:var(--ink)">50</div><div class="bstat-lbl">173 pitches tracked</div></div>
+    <div class="card"><div class="ctitle">Behind-Count ABs</div><div class="bstat" style="color:var(--accent)">58%</div><div class="bstat-lbl">29 of 50 ABs</div></div>
+    <div class="card"><div class="ctitle">Full-Count ABs</div><div class="bstat" style="color:var(--gold)">6</div><div class="bstat-lbl">12% of ABs reach 3-2</div></div>
+    <div class="card"><div class="ctitle">Longest AB</div><div class="bstat" style="color:var(--blue)">8</div><div class="bstat-lbl">pitches in one AB</div></div>
+  </div>
+</div>
+
+<!-- ====== COUNT PREDICTIONS ====== -->
+<div id="predict" class="panel">
+  <div class="stitle">Count-by-Count Prediction Guide</div>
+  <div class="card" style="margin-bottom:20px">
+    <div class="ctitle">What Pitch Is Coming? — By Count</div>
+    <table class="pred-table">
+      <tr><th>Count</th><th>Predict</th><th>Confidence</th><th>n</th><th>Full Breakdown</th></tr>
+      <tr>
+        <td><span class="count-lbl">0-0</span></td>
+        <td><span class="b b-DO">DO</span></td>
+        <td><div class="conf-bar"><div class="conf-bg"><div class="conf-fill conf-med" style="width:38%"></div></div><span class="conf-pct">38%</span></div></td>
+        <td>50</td>
+        <td>DO:19, I:12, O:9, CH:9 — four-way first-pitch mix</td>
+      </tr>
+      <tr>
+        <td><span class="count-lbl">0-1</span></td>
+        <td><span class="b b-mix">DO/UI</span></td>
+        <td><div class="conf-bar"><div class="conf-bg"><div class="conf-fill conf-low" style="width:26%"></div></div><span class="conf-pct">split</span></div></td>
+        <td>19</td>
+        <td>DO:5, UI:5, O:4, I:3, CH:2 — five-way split when ahead 0-1</td>
+      </tr>
+      <tr>
+        <td><span class="count-lbl">1-0</span></td>
+        <td><span class="b b-DO">DO</span></td>
+        <td><div class="conf-bar"><div class="conf-bg"><div class="conf-fill conf-med" style="width:36%"></div></div><span class="conf-pct">36%</span></div></td>
+        <td>22</td>
+        <td>DO:8, I:4, CH:4, O:4, UI:2 — stays down-outside when behind</td>
+      </tr>
+      <tr>
+        <td><span class="count-lbl">1-1</span></td>
+        <td><span class="b b-CH">CH</span></td>
+        <td><div class="conf-bar"><div class="conf-bg"><div class="conf-fill conf-hi" style="width:42%"></div></div><span class="conf-pct">42%</span></div></td>
+        <td>19</td>
+        <td><strong>CH:8</strong>, I:5, DO:4, O:1 — changeup emerges strongly at 1-1</td>
+      </tr>
+      <tr>
+        <td><span class="count-lbl">1-2</span></td>
+        <td><span class="b b-DO">DO</span></td>
+        <td><div class="conf-bar"><div class="conf-bg"><div class="conf-fill conf-med" style="width:36%"></div></div><span class="conf-pct">36%</span></div></td>
+        <td>14</td>
+        <td>DO:5, CH:4, UI:2, I:2, O:1 — DO leads but CH is live as putaway</td>
+      </tr>
+      <tr>
+        <td><span class="count-lbl">2-0</span></td>
+        <td><span class="b b-I">I</span></td>
+        <td><div class="conf-bar"><div class="conf-bg"><div class="conf-fill conf-med" style="width:43%"></div></div><span class="conf-pct">43%</span></div></td>
+        <td>7</td>
+        <td>I:3, O:2, DO:1, D:1 — goes inside when behind 2-0 (unusual)</td>
+      </tr>
+      <tr>
+        <td><span class="count-lbl">2-1</span></td>
+        <td><span class="b b-I">I</span></td>
+        <td><div class="conf-bar"><div class="conf-bg"><div class="conf-fill conf-med" style="width:33%"></div></div><span class="conf-pct">33%</span></div></td>
+        <td>9</td>
+        <td>I:3, CH:2, O:2, D:1, DO:1 — slight inside lean at 2-1</td>
+      </tr>
+      <tr>
+        <td><span class="count-lbl">2-2</span></td>
+        <td><span class="b b-DO">DO</span></td>
+        <td><div class="conf-bar"><div class="conf-bg"><div class="conf-fill conf-hi" style="width:55%"></div></div><span class="conf-pct">55%</span></div></td>
+        <td>11</td>
+        <td><strong>DO:6</strong>, I:3, O:2 — strong DO lean at 2-2</td>
+      </tr>
+      <tr>
+        <td><span class="count-lbl">3-0</span></td>
+        <td><span class="b b-I">I</span></td>
+        <td><div class="conf-bar"><div class="conf-bg"><div class="conf-fill conf-hi" style="width:100%"></div></div><span class="conf-pct">100%</span></div></td>
+        <td>3</td>
+        <td><strong>I:3/3</strong> — inside every time at 3-0 (small sample but notable)</td>
+      </tr>
+      <tr>
+        <td><span class="count-lbl">3-1</span></td>
+        <td><span class="b b-I">I</span></td>
+        <td><div class="conf-bar"><div class="conf-bg"><div class="conf-fill conf-hi" style="width:57%"></div></div><span class="conf-pct">57%</span></div></td>
+        <td>7</td>
+        <td>I:4, O:2, DO:1 — inside in hitter's count (reverses expectation)</td>
+      </tr>
+      <tr>
+        <td><span class="count-lbl">3-2</span></td>
+        <td><span class="b b-DO">DO</span></td>
+        <td><div class="conf-bar"><div class="conf-bg"><div class="conf-fill conf-med" style="width:38%"></div></div><span class="conf-pct">38%</span></div></td>
+        <td>8</td>
+        <td>DO:3, CH:2, I:2, D:1 — DO favored at full count, CH is live</td>
+      </tr>
+      <tr style="background:rgba(192,57,43,0.04)">
+        <td><span class="count-lbl">After 1-2</span></td>
+        <td><span class="b b-DO">DO</span></td>
+        <td><div class="conf-bar"><div class="conf-bg"><div class="conf-fill conf-hi" style="width:55%"></div></div><span class="conf-pct">55%</span></div></td>
+        <td>11</td>
+        <td><strong>DO:6/11</strong> — strongest situational prediction: after reaching 1-2, next pitch is DO</td>
+      </tr>
+      <tr style="background:rgba(30,132,73,0.04)">
+        <td><span class="count-lbl">After 2-0</span></td>
+        <td><span class="b b-I">I</span></td>
+        <td><div class="conf-bar"><div class="conf-bg"><div class="conf-fill conf-hi" style="width:80%"></div></div><span class="conf-pct">80%</span></div></td>
+        <td>5</td>
+        <td><strong>I:4/5</strong> — after falling behind 2-0, next pitch is inside 80% of the time</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="g2">
+    <div class="ins red">
+      <strong>3-0 and 3-1 = Inside (Not Outside)</strong>
+      In hitter's counts where most pitchers throw strikes down the middle or outside, #6 goes inside. 100% inside at 3-0 (3/3), 57% inside at 3-1 (4/7). Do not sit on a hittable pitch down the middle in hitter's counts — protect the inner half.
+    </div>
+    <div class="ins">
+      <strong>1-1 = Changeup (42%)</strong>
+      The changeup is most common at 1-1 — more than any other pitch at that count. If you reach an even count at 1-1, adjust your timing for off-speed.
+    </div>
+  </div>
+</div>
+
+<!-- ====== PATTERNS ====== -->
+<div id="patterns" class="panel">
+  <div class="stitle">Sequential Pitch Patterns</div>
+  <div class="g2">
+    <div class="card">
+      <div class="ctitle">Back-to-Back Same Pitch Rate</div>
+      <div class="bar-row"><div class="bar-lbl">O → O again</div><div class="bar-bg"><div class="bar-fill f-O" style="width:21%"></div></div><div class="bar-pct">21%</div><div class="bar-n">4x</div></div>
+      <div class="bar-row"><div class="bar-lbl">DO → DO again</div><div class="bar-bg"><div class="bar-fill f-DO" style="width:16%"></div></div><div class="bar-pct">16%</div><div class="bar-n">7x</div></div>
+      <div class="bar-row"><div class="bar-lbl">I → I again</div><div class="bar-bg"><div class="bar-fill f-I" style="width:12%"></div></div><div class="bar-pct">12%</div><div class="bar-n">3x</div></div>
+      <div class="bar-row"><div class="bar-lbl">CH → CH again</div><div class="bar-bg"><div class="bar-fill f-CH" style="width:4%"></div></div><div class="bar-pct">4%</div><div class="bar-n">1x</div></div>
+      <div class="bar-row"><div class="bar-lbl">UI → UI again</div><div class="bar-bg"><div class="bar-fill f-UI" style="width:0%"></div></div><div class="bar-pct">0%</div><div class="bar-n">0x</div></div>
+      <div style="margin-top:12px;font-size:0.81rem;color:var(--muted);line-height:1.5">
+        Unlike other pitchers in this scouting set, #6 rarely repeats the same pitch. Lowest back-to-back rates of any pitcher analyzed. She mixes deliberately.
+      </div>
+    </div>
+    <div class="card">
+      <div class="ctitle">Most Common 2-Pitch Sequences</div>
+      <table class="seq-table">
+        <tr><th>Sequence</th><th>Times</th><th>Note</th></tr>
+        <tr><td><span class="b b-DO">DO</span><span class="arrow">→</span><span class="b b-I">I</span></td><td>17x</td><td>Signature setup — down away then jam inside</td></tr>
+        <tr><td><span class="b b-CH">CH</span><span class="arrow">→</span><span class="b b-DO">DO</span></td><td>12x</td><td>Off-speed then back down-away</td></tr>
+        <tr><td><span class="b b-DO">DO</span><span class="arrow">→</span><span class="b b-CH">CH</span></td><td>9x</td><td>Down-away sets up changeup</td></tr>
+        <tr><td><span class="b b-O">O</span><span class="arrow">→</span><span class="b b-I">I</span></td><td>8x</td><td>Outside then jam — corner switching</td></tr>
+        <tr><td><span class="b b-I">I</span><span class="arrow">→</span><span class="b b-DO">DO</span></td><td>8x</td><td>Inside then back away — classic setup</td></tr>
+        <tr><td><span class="b b-I">I</span><span class="arrow">→</span><span class="b b-CH">CH</span></td><td>8x</td><td>Inside sets up changeup speed change</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="stitle">Three-Pitch Sequences</div>
+  <div class="card" style="margin-bottom:20px">
+    <div class="ctitle">Notable 3-Pitch Combinations (2+ occurrences)</div>
+    <table class="seq-table">
+      <tr><th>Sequence</th><th>Times</th><th>What It Means for Hitters</th></tr>
+      <tr>
+        <td><span class="b b-I">I</span><span class="arrow">→</span><span class="b b-DO">DO</span><span class="arrow">→</span><span class="b b-I">I</span></td>
+        <td><strong>4x</strong></td>
+        <td>Inside-away-inside sandwich. Moves your eye then jams you. Be ready to go back inside after a DO.</td>
+      </tr>
+      <tr>
+        <td><span class="b b-DO">DO</span><span class="arrow">→</span><span class="b b-I">I</span><span class="arrow">→</span><span class="b b-CH">CH</span></td>
+        <td><strong>4x</strong></td>
+        <td>Down-away sets up inside which sets up changeup. Three different locations + speed change. Most disruptive sequence.</td>
+      </tr>
+      <tr>
+        <td><span class="b b-CH">CH</span><span class="arrow">→</span><span class="b b-DO">DO</span><span class="arrow">→</span><span class="b b-I">I</span></td>
+        <td><strong>4x</strong></td>
+        <td>Changeup to open, then location change down-away, then jam. Multiple timing and eye adjustments in one AB.</td>
+      </tr>
+      <tr>
+        <td><span class="b b-DO">DO</span><span class="arrow">→</span><span class="b b-CH">CH</span><span class="arrow">→</span><span class="b b-O">O</span></td>
+        <td><strong>3x</strong></td>
+        <td>Sets up outside with DO, disrupts timing with CH, comes back outside at normal speed.</td>
+      </tr>
+      <tr>
+        <td><span class="b b-O">O</span><span class="arrow">→</span><span class="b b-O">O</span><span class="arrow">→</span><span class="b b-I">I</span></td>
+        <td><strong>3x</strong></td>
+        <td>Two outside to set up the jam. Classic sequence — don't get comfortable on outside after seeing it twice.</td>
+      </tr>
+      <tr>
+        <td><span class="b b-I">I</span><span class="arrow">→</span><span class="b b-CH">CH</span><span class="arrow">→</span><span class="b b-DO">DO</span></td>
+        <td><strong>3x</strong></td>
+        <td>Inside then speed change then back down-away. I→CH is the setup for a return to DO.</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="g2">
+    <div class="ins red">
+      <strong>DO→I Is the Signature 2-Pitch Combination (17x)</strong>
+      The most common back-to-back sequence in the entire dataset. Down-outside followed by inside — moves your eye down and away, then comes inside. After seeing a DO, protect the inner half immediately.
+    </div>
+    <div class="ins blue">
+      <strong>CH→DO Is the Reset Pitch (12x)</strong>
+      After a changeup, #6 goes back to down-outside 12 times. Changeup disrupts timing, then DO finishes the job. After any CH, look for DO as the follow-up.
+    </div>
+  </div>
+</div>
+
+<!-- ====== CHANGEUP ====== -->
+<div id="changeup" class="panel">
+  <div class="stitle">Changeup Deep Dive</div>
+
+  <div class="g4" style="margin-bottom:20px">
+    <div class="card"><div class="ctitle">Total Changeups</div><div class="bstat" style="color:var(--green)">31</div><div class="bstat-lbl">18% of all pitches</div></div>
+    <div class="card"><div class="ctitle">CH on First Pitch</div><div class="bstat" style="color:var(--green)">9</div><div class="bstat-lbl">18% of ABs open with CH</div></div>
+    <div class="card"><div class="ctitle">CH at 1-1 Count</div><div class="bstat" style="color:var(--green)">8</div><div class="bstat-lbl">42% of 1-1 counts = CH</div></div>
+    <div class="card"><div class="ctitle">CH Back-to-Back</div><div class="bstat" style="color:var(--muted)">1x</div><div class="bstat-lbl">Rarely repeats CH</div></div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="ctitle">Changeup by Count</div>
+      <table class="pred-table">
+        <tr><th>Count</th><th>CH Thrown</th><th>% of that count</th></tr>
+        <tr><td><span class="count-lbl">0-0</span></td><td>9x</td><td>18% of all 0-0 pitches</td></tr>
+        <tr><td><span class="count-lbl">1-1</span></td><td>8x</td><td><strong>42%</strong> — highest count-specific rate</td></tr>
+        <tr><td><span class="count-lbl">1-0</span></td><td>4x</td><td>18% — active when behind</td></tr>
+        <tr><td><span class="count-lbl">1-2</span></td><td>4x</td><td>29% — putaway option in 2-strike</td></tr>
+        <tr><td><span class="count-lbl">0-1</span></td><td>2x</td><td>11%</td></tr>
+        <tr><td><span class="count-lbl">2-1</span></td><td>2x</td><td>22%</td></tr>
+        <tr><td><span class="count-lbl">3-2</span></td><td>2x</td><td>25% — full count CH</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="ctitle">What Surrounds the Changeup</div>
+      <div style="margin-bottom:14px">
+        <div class="ctitle" style="border:none;padding:0;margin-bottom:8px">What pitch comes BEFORE CH:</div>
+        <div class="bar-row"><div class="bar-lbl">DO → CH</div><div class="bar-bg"><div class="bar-fill f-DO" style="width:45%"></div></div><div class="bar-pct">45%</div><div class="bar-n">9x</div></div>
+        <div class="bar-row"><div class="bar-lbl">I → CH</div><div class="bar-bg"><div class="bar-fill f-I" style="width:40%"></div></div><div class="bar-pct">40%</div><div class="bar-n">8x</div></div>
+        <div class="bar-row"><div class="bar-lbl">O → CH</div><div class="bar-bg"><div class="bar-fill f-O" style="width:10%"></div></div><div class="bar-pct">10%</div><div class="bar-n">2x</div></div>
+      </div>
+      <div>
+        <div class="ctitle" style="border:none;padding:0;margin-bottom:8px">What pitch comes AFTER CH:</div>
+        <div class="bar-row"><div class="bar-lbl">CH → DO</div><div class="bar-bg"><div class="bar-fill f-DO" style="width:55%"></div></div><div class="bar-pct">55%</div><div class="bar-n">12x</div></div>
+        <div class="bar-row"><div class="bar-lbl">CH → O</div><div class="bar-bg"><div class="bar-fill f-O" style="width:27%"></div></div><div class="bar-pct">27%</div><div class="bar-n">6x</div></div>
+        <div class="bar-row"><div class="bar-lbl">CH → UI</div><div class="bar-bg"><div class="bar-fill f-UI" style="width:14%"></div></div><div class="bar-pct">14%</div><div class="bar-n">3x</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="ins red">
+      <strong>DO or I Before CH = The Setup</strong>
+      85% of changeups are preceded by either DO (45%) or I (40%). These two pitches are the setup for the changeup. After seeing DO or I, adjust your timing — CH may be next, especially at 1-1.
+    </div>
+    <div class="ins green">
+      <strong>After CH → DO Comes 55% of the Time</strong>
+      Changeup-then-down-outside is the most common two-pitch combination (12x). After you see a CH, look low and away for the next pitch. This is the most predictable follow-up pattern.
+    </div>
+  </div>
+  <div class="ins blue">
+    <strong>First-Pitch Changeup Signals a CH-Heavy AB</strong>
+    In 9 ABs that open with CH, the AB tends to feature multiple CH pitches. When she opens with a changeup, plan for off-speed to be a recurring theme — adjust your timing from pitch one.
+  </div>
+</div>
+
+<!-- ====== OUTCOMES ====== -->
+<div id="outcomes" class="panel">
+  <div class="stitle">Outcome Analysis</div>
+
+  <div class="outcome-grid">
+    <div class="out-box hit"><div class="out-val">9</div><div class="out-lbl">Hits (1B:6, 2B:2, HR:1)</div></div>
+    <div class="out-box walk"><div class="out-val">7</div><div class="out-lbl">Walks + HBP</div></div>
+    <div class="out-box k"><div class="out-val">5</div><div class="out-lbl">Strikeouts</div></div>
+    <div class="out-box out"><div class="out-val">28</div><div class="out-lbl">Other Outs</div></div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="ctitle">Outcome by Last Pitch Thrown</div>
+      <table class="pred-table">
+        <tr><th>Last Pitch</th><th>Outcomes</th><th>Key Note</th></tr>
+        <tr>
+          <td><span class="b b-DO">DO</span></td>
+          <td>K:4, 1B:3, 6-3:2, 2B:1, 4-3:1, BB:1</td>
+          <td>Most strikeouts come on DO — but also most hits allowed</td>
+        </tr>
+        <tr>
+          <td><span class="b b-I">I</span></td>
+          <td>6-3:4, 5-3:4, 5-4:2, BB:2, 1B:2, F5:1, F7:1, F6:1, 4-3:1, F8:1</td>
+          <td>Most AB-ending pitches — generates lots of ground balls</td>
+        </tr>
+        <tr>
+          <td><span class="b b-CH">CH</span></td>
+          <td>5-3:3, BB:1, F5:1, K:1, F9:1</td>
+          <td>Mostly weak contact and ground balls when CH ends AB</td>
+        </tr>
+        <tr>
+          <td><span class="b b-O">O</span></td>
+          <td>BB:2, 4-3:2, 2B:1, 1B:1, F8:1, 6-3:1, HR:1</td>
+          <td>Risky — the HR and 2B both came on outside pitches</td>
+        </tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="ctitle">Key Outcome Patterns</div>
+      <div class="ins red">
+        <strong>DO Gets Strikeouts But Also Gives Up Hits</strong>
+        4 of 5 strikeouts end on DO. But 3 singles and a double also came on DO. It's the highest-leverage pitch — both her best and most dangerous.
+      </div>
+      <div class="ins">
+        <strong>Inside Pitch Generates Ground Balls</strong>
+        I ends more ABs than any other pitch and generates consistent ground ball contact (6-3, 5-3 appear repeatedly). Inside pitch keeps the ball on the ground.
+      </div>
+      <div class="ins red">
+        <strong>Outside Pitch Is Dangerous — HR Came on O</strong>
+        The home run and extra base hits came on outside pitches. When #6 misses up or leaves O elevated, damage happens. Sit on the outside pitch when the count is in your favor.
+      </div>
+      <div class="ins green">
+        <strong>Changeup Gets Weak Contact</strong>
+        When CH ends an AB, results are mostly 5-3 ground balls and fly balls to center/right. Changeup generates soft contact — hitters are out in front.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== GAME PLAN ====== -->
+<div id="gameplan" class="panel">
+  <div class="stitle">Game Plan vs. Pitcher #6 — CSU Pueblo</div>
+
+  <div class="g2" style="margin-bottom:20px">
+    <div class="card" style="border-top:3px solid var(--accent)">
+      <div class="ctitle">Before the At-Bat</div>
+      <div class="ins red">
+        <strong>Expect Down-Outside First Pitch</strong>
+        38% of ABs open with DO. It's going to be low and away — take it unless it's really in your hitting zone. Do not chase it down.
+      </div>
+      <div class="ins">
+        <strong>Know Your AB Profile</strong>
+        If she opens with CH (18% of ABs), the AB will be CH-heavy. Adjust timing from pitch one and stay ready for changeup throughout. If she opens with I, expect DO as the next pitch (I→DO: 8x).
+      </div>
+      <div class="ins blue">
+        <strong>Changeup Opens 18% of ABs — Unusual</strong>
+        Most pitchers never open with a changeup. When #6 does, she's committed to using it throughout. Stay back and let the ball travel to you.
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--blue)">
+      <div class="ctitle">During the At-Bat</div>
+      <div class="ins red">
+        <strong>After DO → Protect Inside Immediately</strong>
+        DO→I is the most common sequence (17x). Down-outside then inside is the signature pattern. As soon as you see DO, move your hands to cover the inner half for the next pitch.
+      </div>
+      <div class="ins">
+        <strong>1-1 Count → Sit on Changeup (42%)</strong>
+        The most predictable single count. At 1-1, changeup comes 42% of the time — more than any other pitch. Slow your timing down at 1-1.
+      </div>
+      <div class="ins green">
+        <strong>After CH → Look for DO (55%)</strong>
+        After any changeup, down-outside follows 55% of the time. Recognized the CH, reset your timing, and look low and away for the next pitch.
+      </div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card" style="border-top:3px solid var(--green)">
+      <div class="ctitle">Hitter's Count Approach</div>
+      <div class="ins red">
+        <strong>3-0 and 3-1 = Inside (Not a Cookie)</strong>
+        This is the most important reversal from standard expectation. At 3-0 (100%) and 3-1 (57%), #6 goes inside — not down the middle. Do not sit on a hittable strike in hitter's counts. Protect the inner half.
+      </div>
+      <div class="ins">
+        <strong>2-0 → Inside (80%)</strong>
+        After falling behind 2-0, next pitch is inside 80% of the time. Same warning — hitter's counts do not mean easy pitches down the middle from #6.
+      </div>
+      <div class="ins green">
+        <strong>2-2 → Down-Outside (55%)</strong>
+        The one even-pressure count that is readable: 55% DO at 2-2. Know that a 2-2 count means a likely low-away pitch. Make her throw it for a strike.
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--gold)">
+      <div class="ctitle">Where Damage Is Possible</div>
+      <div class="ins">
+        <strong>Outside Pitch = Extra Base Risk</strong>
+        The HR and multiple doubles came on outside pitches. When the count is in your favor and you get an outside pitch, drive it. That's where #6 is vulnerable.
+      </div>
+      <div class="ins">
+        <strong>Falls Behind in 58% of ABs — Work the Count</strong>
+        More than half of ABs reach a behind count. Be patient. The deeper you get in the count, the more predictable she becomes — DO at 2-2 (55%), I at 3-1 (57%).
+      </div>
+      <div class="ins blue">
+        <strong>7 Walks in 50 ABs — Patience Pays</strong>
+        14% walk rate. Combined with HBP, she puts runners on without contact in 14% of ABs. Taking pitches and working counts forces mistakes.
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end content -->
+
+<footer>CSU Pueblo Pitching Scouting Report &nbsp;·&nbsp; Pitcher #6 &nbsp;·&nbsp; vs. Right-Handed Batters &nbsp;·&nbsp; 173 Verified Pitches &nbsp;·&nbsp; Built for Santa Ana College</footer>
+
+<script>
+function show(id, el) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+}
+</script>
+</body>
+</html>
